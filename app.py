@@ -10,16 +10,30 @@ line_bot_api = LineBotApi('BWD6SYM1M59YQ8n21+p2s28YE3p9O1IQwSC7FReV4BXPvmkJracng
 #paste your "Channel Secret" 
 handler= WebhookHandler('8e632b1c1583f4817a80f3312d027e1b')
 
-@app.route("/callback",methods=['POST'])
+# 監聽所有來自 /callback 的 Post Request
+@app.route("/callback", methods=['POST'])
 def callback():
-    signature =request.headers=['X-Line-Signature']
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
 
+    # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    # handle webhook body
     try:
-        handler.handle(body,signature)
+        handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-    
+
     return 'OK'
+
+# 處理訊息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    message = TextSendMessage(text=event.message.text)
+    line_bot_api.reply_message(event.reply_token, message)
+
+
+if __name__ == "__main__":
+    app.run()
