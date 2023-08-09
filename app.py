@@ -54,6 +54,8 @@ def handle_message(event):
         btn_msg = stock_reply_other(msg)
         line_bot_api.push_message(uid, btn_msg)
         return 0
+    
+
 #新增使用者關注的股票mongodb
     if re.match('關注[0-9]{4}[<>][0-9]',msg):
         stockNumber=msg[2:6]
@@ -61,6 +63,8 @@ def handle_message(event):
         content=write_my_stock(uid ,user_name ,stockNumber,msg[6:7],msg[7:])
         line_bot_api.push_message(uid, TextSendMessage(content))
         return 0
+    
+
     if (msg.startswith('#')):
         text = msg[1:]
         content =''
@@ -94,7 +98,10 @@ def handle_message(event):
             event.reply_token, 
             TextSendMessage(text=content)
         )
-
+################################匯率區###################################################
+    if re.match('幣別種類',emsg):
+        message = show_Button()
+        line_bot_api.reply_message(event.reply_token,message)
 
 @handler.add(FollowEvent)
 def handle_follow(event):
