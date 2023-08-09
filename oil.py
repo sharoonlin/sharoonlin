@@ -13,4 +13,3 @@ def oil_price():
     gas_price =soup.select('#gas-price')[0].text.replace('\n\n\n','').replace(' ','')
     cpc= soup.select('#cpc')[0].text.replace(' ','')
     content ='{}\n{}{}'.format(title,gas_price, cpc)
-    return content
