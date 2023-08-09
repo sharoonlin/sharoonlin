@@ -104,10 +104,9 @@ def show_Button():
           {
             "type": "button",
             "action": {
-              "type": "datetimepicker",
-              "mode": "date",
+              "type": "message",
               "label": "英鎊",
-              "data": "hello"
+              "text": "GBP"
             },
             "gravity": "center",
             "style": "primary",
